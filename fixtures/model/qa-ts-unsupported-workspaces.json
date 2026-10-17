@@ -1,0 +1,83 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-ts-unsupported-workspaces overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "total skips the first value.",
+  "failure_signature": "total skips the first value.",
+  "failing_tests": [
+   {
+    "name": "sums",
+    "file": "src/total.test.ts"
+   }
+  ],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "The refactor made total skip the first value.",
+    "category": "code_regression",
+    "supporting_evidence": [
+     {
+      "quote": "FAIL src/total.test.ts",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "The failing test is nondeterministic and fails intermittently.",
+    "category": "flaky_test",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "repeat"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "code_regression",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: code_regression.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "code_patch",
+  "limitations": []
+ }
+}

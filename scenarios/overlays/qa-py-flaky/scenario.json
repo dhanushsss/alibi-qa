@@ -1,0 +1,22 @@
+{
+  "id": "qa-py-flaky",
+  "title": "QA (pytest): session test fails on every second run",
+  "summary": "A docs-only commit turned CI red. The failing test reads a cache file that the previous run left in the working tree (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/py-sessions",
+  "framework": "pytest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (python 3.12)",
+  "ciCommand": ["python", "-m", "pytest"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: session tokens with a one-shot cache", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-07T10:00:00Z" },
+    { "dir": "02-docs", "message": "docs: describe session token cache", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-08T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "flaky_test",
+    "failingTest": { "file": "tests/test_sessions.py", "name": "test_new_session_persists_its_token" },
+    "experiments": ["reproduce", "repeat", "compare_parent", "validate_patch"],
+    "remediation": "quarantine",
+    "notes": "State leaks between runs through .session-cache: within one checkout, runs alternate pass, fail, pass, ... The documentation commit is unrelated."
+  }
+}

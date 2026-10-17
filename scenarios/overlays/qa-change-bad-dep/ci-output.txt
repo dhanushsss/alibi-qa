@@ -1,0 +1,2 @@
+npm ERR! code ETARGET
+npm ERR! notarget No matching version found for left-pad@999.999.999.

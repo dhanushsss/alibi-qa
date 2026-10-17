@@ -1,0 +1,109 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-go-regression overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "Exactly 1.0 kg is charged the standard rate after the table-driven refactor.",
+  "failure_signature": "Exactly 1.0 kg is charged the standard rate after the table-driven refactor.",
+  "failing_tests": [
+   {
+    "name": "TestShippingCents/exactly_1kg"
+   }
+  ],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "The refactor made the small-parcel upper bound exclusive, so exactly 1.0 kg falls through to the standard rate.",
+    "category": "code_regression",
+    "supporting_evidence": [
+     {
+      "quote": "ShippingCents(1) = 899, want 499",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "The failing test is nondeterministic and fails intermittently.",
+    "category": "flaky_test",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "repeat"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "code_regression",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: code_regression.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "code_patch",
+  "limitations": []
+ },
+ "patchCorrect": {
+  "explanation": "Make the small-parcel bound inclusive again; the large-parcel bound stays as it was.",
+  "files": [
+   {
+    "path": "rates/rates.go",
+    "content": "// Package rates prices parcels by weight.\npackage rates\n\nimport \"errors\"\n\n// SmallParcelMaxKg is the inclusive upper bound of the small-parcel rate.\nconst SmallParcelMaxKg = 1.0\n\n// LargeParcelMinKg is the inclusive lower bound of the large-parcel rate.\nconst LargeParcelMinKg = 20.0\n\n// rateTable lists (upper bound in kg, cents), checked in order.\nvar rateTable = []struct {\n\tbelow float64\n\tcents int\n}{\n\t{SmallParcelMaxKg, 499},\n\t{LargeParcelMinKg, 899},\n}\n\n// ShippingCents returns the rate for a parcel, in cents.\nfunc ShippingCents(weightKg float64) (int, error) {\n\tif weightKg <= 0 {\n\t\treturn 0, errors.New(\"weight must be positive\")\n\t}\n\tfor _, r := range rateTable {\n\t\tif weightKg < r.below || (r.below == SmallParcelMaxKg && weightKg == r.below) {\n\t\t\treturn r.cents, nil\n\t\t}\n\t}\n\treturn 2999, nil\n}\n"
+   }
+  ]
+ },
+ "patchWrong": {
+  "explanation": "Treat every table bound as inclusive.",
+  "files": [
+   {
+    "path": "rates/rates.go",
+    "content": "// Package rates prices parcels by weight.\npackage rates\n\nimport \"errors\"\n\n// SmallParcelMaxKg is the inclusive upper bound of the small-parcel rate.\nconst SmallParcelMaxKg = 1.0\n\n// LargeParcelMinKg is the inclusive lower bound of the large-parcel rate.\nconst LargeParcelMinKg = 20.0\n\n// rateTable lists (upper bound in kg, cents), checked in order.\nvar rateTable = []struct {\n\tbelow float64\n\tcents int\n}{\n\t{SmallParcelMaxKg, 499},\n\t{LargeParcelMinKg, 899},\n}\n\n// ShippingCents returns the rate for a parcel, in cents.\nfunc ShippingCents(weightKg float64) (int, error) {\n\tif weightKg <= 0 {\n\t\treturn 0, errors.New(\"weight must be positive\")\n\t}\n\tfor _, r := range rateTable {\n\t\tif weightKg <= r.below {\n\t\t\treturn r.cents, nil\n\t\t}\n\t}\n\treturn 2999, nil\n}\n"
+   }
+  ]
+ },
+ "patchEditsTest": {
+  "explanation": "Align the test with the new rate table.",
+  "files": [
+   {
+    "path": "rates/rates_test.go",
+    "content": "package rates\n\nimport \"testing\"\n\nfunc TestShippingCents(t *testing.T) {\n\tcases := []struct {\n\t\tname   string\n\t\tweight float64\n\t\twant   int\n\t}{\n\t\t{\"half_kg\", 0.5, 499},\n\t\t{\"exactly_1kg\", 1.0, 899},\n\t\t{\"five_kg\", 5, 899},\n\t\t{\"exactly_20kg\", 20, 2999},\n\t\t{\"thirty_kg\", 30, 2999},\n\t}\n\tfor _, c := range cases {\n\t\tt.Run(c.name, func(t *testing.T) {\n\t\t\tgot, err := ShippingCents(c.weight)\n\t\t\tif err != nil {\n\t\t\t\tt.Fatalf(\"ShippingCents(%v) error: %v\", c.weight, err)\n\t\t\t}\n\t\t\tif got != c.want {\n\t\t\t\tt.Errorf(\"ShippingCents(%v) = %d, want %d\", c.weight, got, c.want)\n\t\t\t}\n\t\t})\n\t}\n}\n\nfunc TestRejectsNonPositiveWeight(t *testing.T) {\n\tif _, err := ShippingCents(0); err == nil {\n\t\tt.Fatal(\"expected an error for 0 kg\")\n\t}\n}\n"
+   }
+  ]
+ }
+}

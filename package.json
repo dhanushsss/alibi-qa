@@ -1,0 +1,35 @@
+{
+  "name": "alibi-qa",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end verification suite for Alibi (CI failure forensics). Runs against a disposable clone of a pinned Alibi commit with mocked providers.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "doctor": "tsx scripts/doctor.ts",
+    "prepare:target": "tsx scripts/prepare-target.ts",
+    "test": "tsx scripts/run.ts --suite all --tier offline",
+    "test:all": "tsx scripts/run.ts --suite all --tier offline",
+    "test:api": "tsx scripts/run.ts --suite api --tier offline",
+    "test:agent-loop": "tsx scripts/run.ts --suite agent-loop --tier offline",
+    "test:security": "tsx scripts/run.ts --suite security --tier all",
+    "test:scenarios": "tsx scripts/run.ts --suite scenarios --tier all",
+    "test:docker": "tsx scripts/run.ts --suite all --tier docker",
+    "test:e2e": "tsx scripts/run.ts --suite e2e --tier browser",
+    "test:full": "tsx scripts/run.ts --suite all --tier all",
+    "test:mutations": "tsx scripts/mutation-check.ts",
+    "report": "tsx scripts/report.ts",
+    "clean": "tsx scripts/clean.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.56.1",
+    "@types/node": "20.19.1",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}

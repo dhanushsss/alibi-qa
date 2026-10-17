@@ -1,0 +1,15 @@
+{
+  "name": "shipping-calculator",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Parcel shipping rates (alibi-qa fixture).",
+  "scripts": {
+    "test": "jest --ci"
+  },
+  "devDependencies": {
+    "jest": "29.7.0"
+  },
+  "dependencies": {
+    "left-pad": "999.999.999"
+  }
+}

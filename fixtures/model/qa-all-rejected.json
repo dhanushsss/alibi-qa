@@ -1,0 +1,110 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa overlay scenario. Shapes follow Alibi triage/verdict/patch/next-action schemas.",
+  "triage": {
+    "summary": "formatPrice drops the leading zero of single-digit cents.",
+    "failure_signature": "formatPrice drops the leading zero of single-digit cents.",
+    "failing_tests": [
+      {
+        "name": "formatPrice pads cents to two digits",
+        "file": "test/format.test.js"
+      }
+    ],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "The integer rewrite of formatPrice stopped zero-padding cents.",
+        "category": "code_regression",
+        "supporting_evidence": [
+          {
+            "quote": "Received: \"$19.5\"",
+            "line": 22
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "The failing test is nondeterministic and fails intermittently.",
+        "category": "flaky_test",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "repeat"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "code_regression",
+    "verdict": "probable",
+    "summary": "Scripted QA verdict: code_regression.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "QA scripted: supported."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      },
+      {
+        "id": "H3",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "code_patch",
+    "limitations": []
+  },
+  "patchWrong": {
+    "explanation": "Pad cents to two characters.",
+    "files": [
+      {
+        "path": "src/format.js",
+        "content": "'use strict';\n\n// Integer arithmetic only: avoids floating-point surprises in toFixed.\nfunction formatPrice(cents) {\n  const dollars = Math.floor(cents / 100);\n  return `$${dollars}.${String(cents % 100).padEnd(2, '0')}`;\n}\n\nfunction formatPercent(ratio) {\n  return `${(ratio * 100).toFixed(1)}%`;\n}\n\nmodule.exports = { formatPrice, formatPercent };\n"
+      }
+    ]
+  },
+  "retryWrong": {
+    "explanation": "Pad cents on the left this time.",
+    "files": [
+      {
+        "path": "src/format.js",
+        "content": "'use strict';\n\n// Integer arithmetic only: avoids floating-point surprises in toFixed.\nfunction formatPrice(cents) {\n  const dollars = Math.floor(cents / 100);\n  return `$${dollars}.${String(cents % 100).padStart(3, '0')}`;\n}\n\nfunction formatPercent(ratio) {\n  return `${(ratio * 100).toFixed(1)}%`;\n}\n\nmodule.exports = { formatPrice, formatPercent };\n"
+      }
+    ]
+  },
+  "retryEditsTest": {
+    "explanation": "Accept the new formatting in the test.",
+    "files": [
+      {
+        "path": "test/format.test.js",
+        "content": "'use strict';\nconst { formatPrice, formatPercent } = require('../src/format');\n\ndescribe('formatPrice', () => {\n  test('formats whole dollars', () => {\n    expect(formatPrice(2500)).toBe('$25.00');\n  });\n\n  test('pads cents to two digits', () => {\n    expect(formatPrice(1905)).toBe('$19.5');\n  });\n});\n\ndescribe('formatPercent', () => {\n  test('formats a ratio with one decimal', () => {\n    expect(formatPercent(0.125)).toBe('12.5%');\n  });\n});\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for Alibi built-in maven-dependency scenario. Used by scenarios/maven.docker.test.ts.",
+  "triage": {
+    "summary": "Guava 21 removed Objects.toStringHelper.",
+    "failure_signature": "maven: compilation error InventoryItem.java:50",
+    "failing_tests": [],
+    "environment_clues": [],
+    "implicated_dependencies": [
+      {
+        "name": "guava",
+        "version": "21.0"
+      }
+    ],
+    "hypotheses": [
+      {
+        "cause": "Upgrading Guava 20.0 to 21.0 removed Objects.toStringHelper used by InventoryItem.",
+        "category": "dependency_regression",
+        "supporting_evidence": [
+          {
+            "quote": "cannot find symbol",
+            "line": 256
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "compare_parent"
+        ],
+        "next_experiment": "Build the commit and its parent."
+      },
+      {
+        "cause": "A transient runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Build the commit and its parent."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "dependency_regression",
+    "verdict": "probable",
+    "summary": "Guava 21 removed the API.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "Compile error matches."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "Fails offline."
+      }
+    ],
+    "recommended_action": "Pin Guava or migrate to MoreObjects.",
+    "remediation_type": "dependency_pin",
+    "limitations": []
+  },
+  "patchMigrate": {
+    "explanation": "Use MoreObjects.toStringHelper (same output).",
+    "files": [
+      {
+        "path": "src/main/java/com/example/inventory/InventoryItem.java",
+        "content": "package com.example.inventory;\n\nimport com.google.common.base.Objects;\nimport com.google.common.base.Preconditions;\n\n/** A stock-keeping unit tracked by the inventory service. */\npublic final class InventoryItem {\n    private final String sku;\n    private final String name;\n    private final int quantity;\n\n    public InventoryItem(String sku, String name, int quantity) {\n        this.sku = Preconditions.checkNotNull(sku, \"sku\");\n        this.name = Preconditions.checkNotNull(name, \"name\");\n        Preconditions.checkArgument(quantity >= 0, \"quantity must be non-negative: %s\", quantity);\n        this.quantity = quantity;\n    }\n\n    public String sku() {\n        return sku;\n    }\n\n    public String name() {\n        return name;\n    }\n\n    public int quantity() {\n        return quantity;\n    }\n\n    public InventoryItem withQuantity(int newQuantity) {\n        return new InventoryItem(sku, name, newQuantity);\n    }\n\n    @Override\n    public boolean equals(Object other) {\n        if (this == other) return true;\n        if (!(other instanceof InventoryItem)) return false;\n        InventoryItem that = (InventoryItem) other;\n        return quantity == that.quantity && sku.equals(that.sku) && name.equals(that.name);\n    }\n\n    @Override\n    public int hashCode() {\n        return Objects.hashCode(sku, name, quantity);\n    }\n\n    @Override\n    public String toString() {\n        return com.google.common.base.MoreObjects.toStringHelper(this)\n                .add(\"sku\", sku)\n                .add(\"name\", name)\n                .add(\"quantity\", quantity)\n                .toString();\n    }\n}\n"
+      }
+    ]
+  }
+}

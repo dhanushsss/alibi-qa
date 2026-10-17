@@ -1,0 +1,110 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa pytest overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+  "triage": {
+    "summary": "Exactly 1.0 kg is charged the standard rate after the table-driven refactor.",
+    "failure_signature": "Exactly 1.0 kg is charged the standard rate after the table-driven refactor.",
+    "failing_tests": [
+      {
+        "name": "test_small_parcel_up_to_and_including_1kg",
+        "file": "tests/test_rates.py"
+      }
+    ],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "The refactor made the small-parcel upper bound exclusive, so exactly 1.0 kg falls through to the standard rate.",
+        "category": "code_regression",
+        "supporting_evidence": [
+          {
+            "quote": "assert 899 == 499",
+            "line": 1
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "The failing test is nondeterministic and fails intermittently.",
+        "category": "flaky_test",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "repeat"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "code_regression",
+    "verdict": "probable",
+    "summary": "Scripted QA verdict: code_regression.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "QA scripted: supported."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      },
+      {
+        "id": "H3",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "code_patch",
+    "limitations": []
+  },
+  "patchCorrect": {
+    "explanation": "Make the small-parcel bound inclusive again while keeping the large-parcel bound exclusive.",
+    "files": [
+      {
+        "path": "shipping/rates.py",
+        "content": "\"\"\"Parcel shipping rates, in cents.\"\"\"\n\nSMALL_PARCEL_MAX_KG = 1.0\nLARGE_PARCEL_MIN_KG = 20.0\n\n\ndef shipping_cents(weight_kg: float) -> int:\n    if weight_kg <= 0:\n        raise ValueError(\"weight must be positive\")\n    if weight_kg <= SMALL_PARCEL_MAX_KG:\n        return 499\n    if weight_kg >= LARGE_PARCEL_MIN_KG:\n        return 2999\n    return 899\n"
+      }
+    ]
+  },
+  "patchWrong": {
+    "explanation": "Treat every table bound as inclusive.",
+    "files": [
+      {
+        "path": "shipping/rates.py",
+        "content": "\"\"\"Parcel shipping rates, in cents.\"\"\"\n\nSMALL_PARCEL_MAX_KG = 1.0\nLARGE_PARCEL_MIN_KG = 20.0\n\n# (upper bound in kg, cents), checked in order.\nRATE_TABLE = (\n    (SMALL_PARCEL_MAX_KG, 499),\n    (LARGE_PARCEL_MIN_KG, 899),\n)\n\n\ndef shipping_cents(weight_kg: float) -> int:\n    if weight_kg <= 0:\n        raise ValueError(\"weight must be positive\")\n    for bound, cents in RATE_TABLE:\n        if weight_kg <= bound:\n            return cents\n    return 2999\n"
+      }
+    ]
+  },
+  "patchEditsTest": {
+    "explanation": "Align the test with the table-driven rates.",
+    "files": [
+      {
+        "path": "tests/test_rates.py",
+        "content": "import pytest\n\nfrom shipping.rates import shipping_cents\n\n\ndef test_small_parcel_up_to_and_including_1kg():\n    assert shipping_cents(0.5) == 499\n    assert shipping_cents(1.0) == 899\n\n\ndef test_standard_parcel():\n    assert shipping_cents(5) == 899\n\n\nclass TestLargeParcels:\n    @pytest.mark.parametrize(\"kg\", [20, 35.5])\n    def test_large_rate(self, kg):\n        assert shipping_cents(kg) == 2999\n\n\ndef test_rejects_non_positive_weight():\n    with pytest.raises(ValueError):\n        shipping_cents(0)\n"
+      }
+    ]
+  }
+}

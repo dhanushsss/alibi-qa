@@ -1,0 +1,72 @@
+{
+  "$comment": "Scripted Nemotron outputs for the offline GitHub-run fixture qa-org/widget-service (logs/jest-regression.log). Synthetic; shaped like Alibi's triage/verdict schemas. H1 cites one real log line (19) and one quote that does not exist in the log.",
+  "triage": {
+    "summary": "roundCurrency now truncates instead of rounding half up, so 10.125 becomes 10.12.",
+    "failure_signature": "jest: test/rounding.test.js roundCurrency rounds half up to two decimals",
+    "failing_tests": [{ "name": "roundCurrency rounds half up to two decimals", "file": "test/rounding.test.js" }],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "The commit replaced Math.round with Math.floor in roundCurrency, truncating half-up cases.",
+        "category": "code_regression",
+        "supporting_evidence": [
+          { "quote": "Expected: 10.13", "line": 19 },
+          { "quote": "TypeError: roundCurrency is not a function", "line": 3 }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "heuristic_confidence": 0.8,
+        "experiments": ["reproduce", "compare_parent"],
+        "next_experiment": "Run the failing test at the parent commit."
+      },
+      {
+        "cause": "Floating-point rounding is nondeterministic across runners.",
+        "category": "flaky_test",
+        "supporting_evidence": [],
+        "contradicting_evidence": [{ "quote": "Received: 10.12", "line": 20 }],
+        "prior": "low",
+        "experiments": ["repeat"],
+        "next_experiment": "Repeat the test with different seeds."
+      },
+      {
+        "cause": "A transient runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": ["reproduce"],
+        "next_experiment": "Re-run offline."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdictConfirmed": {
+    "classification": "code_regression",
+    "verdict": "confirmed",
+    "summary": "The rounding change in this commit causes the failure.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      { "id": "H1", "status": "supported", "assessment": "The diff matches the assertion." },
+      { "id": "H2", "status": "refuted", "assessment": "Rounding is deterministic." },
+      { "id": "H3", "status": "inconclusive", "assessment": "No evidence either way." }
+    ],
+    "recommended_action": "Restore Math.round in roundCurrency.",
+    "remediation_type": "code_patch",
+    "limitations": ["No sandbox run was available to the model."]
+  },
+  "verdictInconclusive": {
+    "classification": "unknown",
+    "verdict": "inconclusive",
+    "summary": "The log alone does not discriminate between the hypotheses.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      { "id": "H1", "status": "inconclusive", "assessment": "Plausible but untested." },
+      { "id": "H2", "status": "inconclusive", "assessment": "Untested." },
+      { "id": "H3", "status": "inconclusive", "assessment": "Untested." }
+    ],
+    "recommended_action": "Run the experiments in a sandbox.",
+    "remediation_type": "none",
+    "limitations": []
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id": "qa-go-build",
+  "title": "QA (Go): a rename breaks the build of another package",
+  "summary": "Renaming stock.Available to stock.Sellable left a caller in package report unchanged (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/go-inventory",
+  "framework": "go",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "build (go 1.24)",
+  "ciCommand": [
+    "go",
+    "build",
+    "./..."
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: stock levels and report",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-rename",
+      "message": "refactor: rename Available to Sellable",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": null,
+    "experiments": [
+      "reproduce",
+      "compare_parent",
+      "validate_patch"
+    ],
+    "remediation": "code_patch",
+    "notes": "go build ./... fails with undefined: stock.Available in report/report.go. The parent builds. Repeats are skipped (compile errors are deterministic)."
+  }
+}

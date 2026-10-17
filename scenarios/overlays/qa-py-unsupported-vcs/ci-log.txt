@@ -1,0 +1,33 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/py-greet-vcs
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-python@v5
+2026-10-15T09:00:00.3700000Z Set up Python 3.12.7
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run python -m pytest
+2026-10-15T09:00:00.4810000Z python -m pytest
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z ============================= test session starts ==============================
+2026-10-15T09:00:00.5920000Z platform linux -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0
+2026-10-15T09:00:00.6290000Z collected 1 item
+2026-10-15T09:00:00.6660000Z 
+2026-10-15T09:00:00.7030000Z tests/test_greet.py F                                                    [100%]
+2026-10-15T09:00:00.7400000Z 
+2026-10-15T09:00:00.7770000Z =================================== FAILURES ===================================
+2026-10-15T09:00:00.8140000Z _____________________________ test_greets_by_name ______________________________
+2026-10-15T09:00:00.8510000Z 
+2026-10-15T09:00:00.8880000Z     def test_greets_by_name():
+2026-10-15T09:00:00.9250000Z >       assert greet("Ada") == "Hello, Ada!"
+2026-10-15T09:00:00.9620000Z E       AssertionError: assert 'Hi Ada' == 'Hello, Ada!'
+2026-10-15T09:00:00.9990000Z 
+2026-10-15T09:00:01.0360000Z tests/test_greet.py:5: AssertionError
+2026-10-15T09:00:01.0730000Z =========================== short test summary info ============================
+2026-10-15T09:00:01.1100000Z FAILED tests/test_greet.py::test_greets_by_name - AssertionError: assert 'Hi Ada' == 'Hello, Ada!'
+2026-10-15T09:00:01.1470000Z ============================== 1 failed in 0.02s ===============================
+2026-10-15T09:00:01.1840000Z ##[error]Process completed with exit code 1.

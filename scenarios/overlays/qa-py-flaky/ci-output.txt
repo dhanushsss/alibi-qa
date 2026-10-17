@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0
+rootdir: /home/runner/work/py-sessions/py-sessions
+collected 2 items
+
+tests/test_sessions.py .F                                                [100%]
+
+=================================== FAILURES ===================================
+_____________________ test_new_session_persists_its_token ______________________
+tests/test_sessions.py:11: in test_new_session_persists_its_token
+    assert CACHE.read_text().strip() == token
+/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+E   FileNotFoundError: [Errno 2] No such file or directory: '.session-cache'
+=========================== short test summary info ============================
+FAILED tests/test_sessions.py::test_new_session_persists_its_token - FileNotFoundError: [Errno 2] No such file or directory: '.session-cache'
+========================= 1 failed, 1 passed in 0.02s ==========================

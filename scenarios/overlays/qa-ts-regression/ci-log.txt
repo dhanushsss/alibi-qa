@@ -1,0 +1,62 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/ts-pricing
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-node@v4
+2026-10-15T09:00:00.3700000Z Set up Node.js 20
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run npx jest --ci
+2026-10-15T09:00:00.4810000Z npx jest --ci
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z FAIL src/discounts.test.ts
+2026-10-15T09:00:00.5920000Z   discountRate
+2026-10-15T09:00:00.6290000Z     ✓ no discount below $100 (1 ms)
+2026-10-15T09:00:00.6660000Z     ✕ applies 10% at exactly $100.00 (1 ms)
+2026-10-15T09:00:00.7030000Z     ✕ applies 15% from $250 (1 ms)
+2026-10-15T09:00:00.7400000Z     ✓ keeps 15% above $250
+2026-10-15T09:00:00.7770000Z 
+2026-10-15T09:00:00.8140000Z   ● discountRate › applies 10% at exactly $100.00
+2026-10-15T09:00:00.8510000Z 
+2026-10-15T09:00:00.8880000Z     expect(received).toBe(expected) // Object.is equality
+2026-10-15T09:00:00.9250000Z 
+2026-10-15T09:00:00.9620000Z     Expected: 0.1
+2026-10-15T09:00:00.9990000Z     Received: 0
+2026-10-15T09:00:01.0360000Z 
+2026-10-15T09:00:01.0730000Z       3 | describe('discountRate', () => {
+2026-10-15T09:00:01.1100000Z       4 |   test('no discount below $100', () => expect(discountRate(9999)).toBe(0));
+2026-10-15T09:00:01.1470000Z     > 5 |   test('applies 10% at exactly $100.00', () => expect(discountRate(10000)).toBe(0.1));
+2026-10-15T09:00:01.1840000Z         |                                                                            ^
+2026-10-15T09:00:01.2210000Z       6 |   test('applies 15% from $250', () => expect(discountRate(25000)).toBe(0.15));
+2026-10-15T09:00:01.2580000Z       7 |   test('keeps 15% above $250', () => expect(discountRate(40000)).toBe(0.15));
+2026-10-15T09:00:01.2950000Z       8 | });
+2026-10-15T09:00:01.3320000Z 
+2026-10-15T09:00:01.3690000Z       at Object.<anonymous> (src/discounts.test.ts:5:76)
+2026-10-15T09:00:01.4060000Z 
+2026-10-15T09:00:01.4430000Z   ● discountRate › applies 15% from $250
+2026-10-15T09:00:01.4800000Z 
+2026-10-15T09:00:01.5170000Z     expect(received).toBe(expected) // Object.is equality
+2026-10-15T09:00:01.5540000Z 
+2026-10-15T09:00:01.5910000Z     Expected: 0.15
+2026-10-15T09:00:01.6280000Z     Received: 0.1
+2026-10-15T09:00:01.6650000Z 
+2026-10-15T09:00:01.7020000Z       4 |   test('no discount below $100', () => expect(discountRate(9999)).toBe(0));
+2026-10-15T09:00:01.7390000Z       5 |   test('applies 10% at exactly $100.00', () => expect(discountRate(10000)).toBe(0.1));
+2026-10-15T09:00:01.7760000Z     > 6 |   test('applies 15% from $250', () => expect(discountRate(25000)).toBe(0.15));
+2026-10-15T09:00:01.8130000Z         |                                                                   ^
+2026-10-15T09:00:01.8500000Z       7 |   test('keeps 15% above $250', () => expect(discountRate(40000)).toBe(0.15));
+2026-10-15T09:00:01.8870000Z       8 | });
+2026-10-15T09:00:01.9240000Z       9 |
+2026-10-15T09:00:01.9610000Z 
+2026-10-15T09:00:01.9980000Z       at Object.<anonymous> (src/discounts.test.ts:6:67)
+2026-10-15T09:00:02.0350000Z 
+2026-10-15T09:00:02.0720000Z Test Suites: 1 failed, 1 total
+2026-10-15T09:00:02.1090000Z Tests:       2 failed, 2 passed, 4 total
+2026-10-15T09:00:02.1460000Z Snapshots:   0 total
+2026-10-15T09:00:02.1830000Z Time:        1.269 s
+2026-10-15T09:00:02.2200000Z Ran all test suites.
+2026-10-15T09:00:02.2570000Z ##[error]Process completed with exit code 1.

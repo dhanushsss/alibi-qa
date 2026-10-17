@@ -1,0 +1,44 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/order-ids
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-node@v4
+2026-10-15T09:00:00.3700000Z Set up Node.js 20
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run npx jest --ci
+2026-10-15T09:00:00.4810000Z npx jest --ci
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z FAIL test/ids.test.js
+2026-10-15T09:00:00.5920000Z   ● newOrderId › is prefixed and has 32 hex characters
+2026-10-15T09:00:00.6290000Z 
+2026-10-15T09:00:00.6660000Z     Cannot find module 'uuid/v4' from 'src/ids.js'
+2026-10-15T09:00:00.7030000Z 
+2026-10-15T09:00:00.7400000Z       4 | function newOrderId() {
+2026-10-15T09:00:00.7770000Z       5 |   // Deep import kept from the original implementation.
+2026-10-15T09:00:00.8140000Z     > 6 |   const v4 = require('uuid/v4');
+2026-10-15T09:00:00.8510000Z         |              ^
+2026-10-15T09:00:00.8880000Z       7 |   return `ord_${v4().replace(/-/g, '')}`;
+2026-10-15T09:00:00.9250000Z       8 | }
+2026-10-15T09:00:00.9620000Z 
+2026-10-15T09:00:00.9990000Z       at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+2026-10-15T09:00:01.0360000Z       at require (src/ids.js:6:14)
+2026-10-15T09:00:01.0730000Z       at Object.newOrderId (test/ids.test.js:6:12)
+2026-10-15T09:00:01.1100000Z 
+2026-10-15T09:00:01.1470000Z   ● newOrderId › does not repeat across calls
+2026-10-15T09:00:01.1840000Z 
+2026-10-15T09:00:01.2210000Z     Cannot find module 'uuid/v4' from 'src/ids.js'
+2026-10-15T09:00:01.2580000Z 
+2026-10-15T09:00:01.2950000Z       at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+2026-10-15T09:00:01.3320000Z       at require (src/ids.js:6:14)
+2026-10-15T09:00:01.3690000Z 
+2026-10-15T09:00:01.4060000Z Test Suites: 1 failed, 1 total
+2026-10-15T09:00:01.4430000Z Tests:       2 failed, 2 total
+2026-10-15T09:00:01.4800000Z Snapshots:   0 total
+2026-10-15T09:00:01.5170000Z Time:        0.388 s
+2026-10-15T09:00:01.5540000Z Ran all test suites.
+2026-10-15T09:00:01.5910000Z ##[error]Process completed with exit code 1.

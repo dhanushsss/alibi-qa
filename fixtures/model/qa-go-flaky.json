@@ -1,0 +1,83 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-go-flaky overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "TestStartsWithoutActiveSession fails when an earlier run left .session-cache behind.",
+  "failure_signature": "TestStartsWithoutActiveSession fails when an earlier run left .session-cache behind.",
+  "failing_tests": [
+   {
+    "name": "TestStartsWithoutActiveSession"
+   }
+  ],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "The test leaks a cache file, so it fails on every second run in the same checkout.",
+    "category": "flaky_test",
+    "supporting_evidence": [
+     {
+      "quote": "a session is already active before Start",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "repeat",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "The docs commit changed session behaviour.",
+    "category": "code_regression",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "flaky_test",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: flaky_test.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "quarantine",
+  "limitations": []
+ }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "qa-ts-unsupported-notransform",
+  "title": "QA (TypeScript): Jest without a TypeScript transform is refused",
+  "summary": "Jest is installed but nothing compiles TypeScript tests (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/ts-fixture",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": [
+    "npx",
+    "jest",
+    "--ci"
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: totals",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-change",
+      "message": "refactor: totals",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": null,
+    "failingTest": {
+      "file": "src/total.test.ts",
+      "name": "sums"
+    },
+    "experiments": [],
+    "remediation": null,
+    "notes": "Refused before installation: no dependencies installed, no tests run."
+  }
+}

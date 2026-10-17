@@ -1,0 +1,22 @@
+{
+  "id": "qa-py-unsupported-poetry",
+  "title": "QA (pytest): Poetry project (unsupported layout)",
+  "summary": "A Poetry-managed project: dependencies live in pyproject.toml and poetry.lock, which Zerqis does not install (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/py-greet-poetry",
+  "framework": "pytest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (python 3.12)",
+  "ciCommand": ["python", "-m", "pytest"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: greeting", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-11T10:00:00Z" },
+    { "dir": "02-change", "message": "feat: shorter greeting", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-12T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": { "file": "tests/test_greet.py", "name": "test_greets_by_name" },
+    "experiments": [],
+    "remediation": "none",
+    "notes": "The project layout is not one Alibi installs. The investigation must say so explicitly and run nothing."
+  }
+}

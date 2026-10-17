@@ -1,0 +1,6 @@
+--- FAIL: TestShippingCents (0.00s)
+    --- FAIL: TestShippingCents/exactly_1kg (0.00s)
+        rates_test.go:24: ShippingCents(1) = 899, want 499
+FAIL
+FAIL	example.com/qa/shipping/rates	0.001s
+FAIL

@@ -1,0 +1,92 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa overlay scenario. Shapes follow Alibi triage/verdict/patch/next-action schemas.",
+  "triage": {
+    "summary": "uuid 9 no longer exposes the uuid/v4 deep import.",
+    "failure_signature": "uuid 9 no longer exposes the uuid/v4 deep import.",
+    "failing_tests": [
+      {
+        "name": "newOrderId is prefixed and has 32 hex characters",
+        "file": "test/ids.test.js"
+      }
+    ],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "Upgrading uuid from 3.4.0 to 9.0.1 removed the uuid/v4 deep import path used by src/ids.js.",
+        "category": "dependency_regression",
+        "supporting_evidence": [
+          {
+            "quote": "Cannot find module uuid/v4 from src/ids.js",
+            "line": 19
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "The failing test is nondeterministic and fails intermittently.",
+        "category": "flaky_test",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "repeat"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "dependency_regression",
+    "verdict": "probable",
+    "summary": "Scripted QA verdict: dependency_regression.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "QA scripted: supported."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      },
+      {
+        "id": "H3",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "dependency_pin",
+    "limitations": []
+  },
+  "patchWrongDep": {
+    "explanation": "Move to uuid 8.3.2, which is closer to the previous API.",
+    "files": [
+      {
+        "path": "package.json",
+        "content": "{\n  \"name\": \"order-ids\",\n  \"version\": \"0.9.2\",\n  \"private\": true,\n  \"description\": \"Order identifier generation (alibi-qa fixture).\",\n  \"scripts\": {\n    \"test\": \"jest --ci\"\n  },\n  \"dependencies\": {\n    \"uuid\": \"8.3.2\"\n  },\n  \"devDependencies\": {\n    \"jest\": \"29.7.0\"\n  }\n}\n"
+      }
+    ]
+  }
+}

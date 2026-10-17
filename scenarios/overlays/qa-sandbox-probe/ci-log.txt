@@ -1,0 +1,34 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/sandbox-probe
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-node@v4
+2026-10-15T09:00:00.3700000Z Set up Node.js 20
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run npx jest --ci
+2026-10-15T09:00:00.4810000Z npx jest --ci
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z FAIL test/probe.test.js
+2026-10-15T09:00:00.5920000Z   ● isolation probe
+2026-10-15T09:00:00.6290000Z 
+2026-10-15T09:00:00.6660000Z     probe complete (intentional failure so the CI run is red)
+2026-10-15T09:00:00.7030000Z 
+2026-10-15T09:00:00.7400000Z       57 |   };
+2026-10-15T09:00:00.7770000Z       58 |   process.stderr.write(`\nQA_PROBE_RESULT ${JSON.stringify(report)}\n`);
+2026-10-15T09:00:00.8140000Z     > 59 |   throw new Error('probe complete (intentional failure so the CI run is red)');
+2026-10-15T09:00:00.8510000Z          |         ^
+2026-10-15T09:00:00.8880000Z       60 | });
+2026-10-15T09:00:00.9250000Z 
+2026-10-15T09:00:00.9620000Z       at Object.<anonymous> (test/probe.test.js:59:9)
+2026-10-15T09:00:00.9990000Z 
+2026-10-15T09:00:01.0360000Z Test Suites: 1 failed, 1 total
+2026-10-15T09:00:01.0730000Z Tests:       1 failed, 1 total
+2026-10-15T09:00:01.1100000Z Snapshots:   0 total
+2026-10-15T09:00:01.1470000Z Time:        2.611 s
+2026-10-15T09:00:01.1840000Z Ran all test suites.
+2026-10-15T09:00:01.2210000Z ##[error]Process completed with exit code 1.

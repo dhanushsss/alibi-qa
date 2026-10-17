@@ -1,0 +1,4 @@
+PASS test/format.test.js
+PASS test/shipping.test.js
+
+Tests:       6 passed, 6 total

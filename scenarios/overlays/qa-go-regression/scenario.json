@@ -1,0 +1,43 @@
+{
+  "id": "qa-go-regression",
+  "title": "QA (Go): table-driven refactor breaks the 1 kg boundary",
+  "summary": "A refactor of parcel rates into a lookup table made the small-parcel bound exclusive (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/go-shipping",
+  "framework": "go",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (go 1.24)",
+  "ciCommand": [
+    "go",
+    "test",
+    "./..."
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: parcel shipping rates",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-refactor",
+      "message": "refactor: table-driven parcel rates",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": {
+      "name": "TestShippingCents/exactly_1kg"
+    },
+    "experiments": [
+      "reproduce",
+      "repeat",
+      "compare_parent",
+      "validate_patch"
+    ],
+    "remediation": "code_patch",
+    "notes": "Exactly 1.0 kg falls through to the standard rate. Fails deterministically on the refactor and passes on its parent."
+  }
+}

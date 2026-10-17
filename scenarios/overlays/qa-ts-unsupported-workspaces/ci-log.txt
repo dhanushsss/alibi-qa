@@ -1,0 +1,39 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/ts-fixture
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-node@v4
+2026-10-15T09:00:00.3700000Z Set up Node.js 20
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run npx jest --ci
+2026-10-15T09:00:00.4810000Z npx jest --ci
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z FAIL src/total.test.ts
+2026-10-15T09:00:00.5920000Z   ✕ sums (2 ms)
+2026-10-15T09:00:00.6290000Z 
+2026-10-15T09:00:00.6660000Z   ● sums
+2026-10-15T09:00:00.7030000Z 
+2026-10-15T09:00:00.7400000Z     expect(received).toBe(expected) // Object.is equality
+2026-10-15T09:00:00.7770000Z 
+2026-10-15T09:00:00.8140000Z     Expected: 3
+2026-10-15T09:00:00.8510000Z     Received: 2
+2026-10-15T09:00:00.8880000Z 
+2026-10-15T09:00:00.9250000Z       1 | import { total } from './total';
+2026-10-15T09:00:00.9620000Z       2 |
+2026-10-15T09:00:00.9990000Z     > 3 | test('sums', () => expect(total([1, 2])).toBe(3));
+2026-10-15T09:00:01.0360000Z         |                                          ^
+2026-10-15T09:00:01.0730000Z       4 |
+2026-10-15T09:00:01.1100000Z 
+2026-10-15T09:00:01.1470000Z       at Object.<anonymous> (src/total.test.ts:3:42)
+2026-10-15T09:00:01.1840000Z 
+2026-10-15T09:00:01.2210000Z Test Suites: 1 failed, 1 total
+2026-10-15T09:00:01.2580000Z Tests:       1 failed, 1 total
+2026-10-15T09:00:01.2950000Z Snapshots:   0 total
+2026-10-15T09:00:01.3320000Z Time:        1.288 s
+2026-10-15T09:00:01.3690000Z Ran all test suites.
+2026-10-15T09:00:01.4060000Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,84 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa pytest overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+  "triage": {
+    "summary": "The session test depends on a cache file left by a previous run; the commit only changes documentation.",
+    "failure_signature": "The session test depends on a cache file left by a previous run; the commit only changes documentation.",
+    "failing_tests": [
+      {
+        "name": "test_new_session_persists_its_token",
+        "file": "tests/test_sessions.py"
+      }
+    ],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "State leaks between runs through .session-cache, so the test passes or fails depending on the previous run.",
+        "category": "flaky_test",
+        "supporting_evidence": [
+          {
+            "quote": "No such file or directory: '.session-cache'",
+            "line": 1
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "repeat",
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "The documentation commit broke session tokens.",
+        "category": "code_regression",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "flaky_test",
+    "verdict": "confirmed",
+    "summary": "Scripted QA verdict: flaky_test.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "QA scripted: supported."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      },
+      {
+        "id": "H3",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "quarantine",
+    "limitations": []
+  }
+}

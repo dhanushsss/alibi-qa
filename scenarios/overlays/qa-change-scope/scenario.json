@@ -1,0 +1,23 @@
+{
+  "id": "qa-change-scope",
+  "title": "QA (change verification): a refactor, then a change that skips the tests it breaks",
+  "summary": "02 is a behaviour-preserving refactor; 03 breaks the weight-band boundaries and marks the two failing tests as skipped, so the suite stays green (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/shipping-scope",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": ["npx", "jest", "--ci"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: weight-band shipping rates", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-13T10:00:00Z" },
+    { "dir": "02-refactor", "message": "refactor: tidy cent formatting", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-14T10:00:00Z" },
+    { "dir": "03-skip", "message": "fix: make CI green", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-15T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": { "file": "test/shipping.test.js", "name": "shippingCents charges the small-parcel rate up to and including 1 kg" },
+    "experiments": [],
+    "remediation": "none",
+    "notes": "Change verification fixture. 01→02 passes with the same scope (no regression observed). 02→03 passes only because two tests are skipped: inconclusive."
+  }
+}

@@ -1,0 +1,4 @@
+# example.com/qa/tasks/sorter [example.com/qa/tasks/sorter.test]
+sorter/sorter.go:12:25: in call to slices.SortFunc, type func(a Task, b Task) bool of func(a, b Task) bool {…} does not match inferred type func(a Task, b Task) int for func(a E, b E) int
+FAIL	example.com/qa/tasks/sorter [build failed]
+FAIL

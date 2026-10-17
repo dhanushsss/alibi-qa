@@ -1,0 +1,114 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa overlay scenario. Shapes follow Alibi triage/verdict/patch/next-action schemas.",
+  "triage": {
+    "summary": "Weight-band lookup excludes the band limit after the refactor.",
+    "failure_signature": "Weight-band lookup excludes the band limit after the refactor.",
+    "failing_tests": [
+      {
+        "name": "shippingCents charges the small-parcel rate up to and including 1 kg",
+        "file": "test/shipping.test.js"
+      }
+    ],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "The refactor changed the band comparison from <= to <, so parcels exactly at a limit fall into the next band.",
+        "category": "code_regression",
+        "supporting_evidence": [
+          {
+            "quote": "Expected: 499",
+            "line": 21
+          },
+          {
+            "quote": "Received: 899",
+            "line": 22
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "The failing test is nondeterministic and fails intermittently.",
+        "category": "flaky_test",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "repeat"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "code_regression",
+    "verdict": "probable",
+    "summary": "Scripted QA verdict: code_regression.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "QA scripted: supported."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      },
+      {
+        "id": "H3",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "code_patch",
+    "limitations": []
+  },
+  "patchCorrect": {
+    "explanation": "Restore the inclusive band limit (<=).",
+    "files": [
+      {
+        "path": "src/shipping.js",
+        "content": "'use strict';\n\n// Shipping rates by weight band, smallest first.\nconst BANDS = [\n  { maxGrams: 1000, cents: 499 },\n  { maxGrams: 5000, cents: 899 },\n  { maxGrams: 20000, cents: 1999 },\n];\n\nfunction shippingCents(weightGrams) {\n  if (!Number.isFinite(weightGrams) || weightGrams <= 0) throw new RangeError('weight must be positive');\n  const band = BANDS.find((b) => weightGrams <= b.maxGrams);\n  return band ? band.cents : null; // null: freight, quoted separately\n}\n\nmodule.exports = { BANDS, shippingCents };\n"
+      }
+    ]
+  },
+  "patchWrong": {
+    "explanation": "Raise the first band limit by one gram.",
+    "files": [
+      {
+        "path": "src/shipping.js",
+        "content": "'use strict';\n\n// Shipping rates by weight band, smallest first.\nconst BANDS = [\n  { maxGrams: 1001, cents: 499 },\n  { maxGrams: 5000, cents: 899 },\n  { maxGrams: 20000, cents: 1999 },\n];\n\nfunction shippingCents(weightGrams) {\n  if (!Number.isFinite(weightGrams) || weightGrams <= 0) throw new RangeError('weight must be positive');\n  const band = BANDS.find((b) => weightGrams < b.maxGrams);\n  return band ? band.cents : null; // null: freight, quoted separately\n}\n\nmodule.exports = { BANDS, shippingCents };\n"
+      }
+    ]
+  },
+  "patchEditsTest": {
+    "explanation": "Update the tests to the new band semantics.",
+    "files": [
+      {
+        "path": "test/shipping.test.js",
+        "content": "'use strict';\nconst { shippingCents } = require('../src/shipping');\n\ndescribe('shippingCents', () => {\n  test('charges the small-parcel rate up to and including 1 kg', () => {\n    expect(shippingCents(1000)).toBe(899);\n  });\n\n  test('charges the medium rate just above 1 kg', () => {\n    expect(shippingCents(1001)).toBe(899);\n  });\n\n  test('charges the large rate at exactly 20 kg', () => {\n    expect(shippingCents(20000)).toBeNull();\n  });\n\n  test('returns null for freight', () => {\n    expect(shippingCents(20001)).toBeNull();\n  });\n\n  test('rejects non-positive weights', () => {\n    expect(() => shippingCents(0)).toThrow(RangeError);\n  });\n});\n"
+      }
+    ]
+  }
+}

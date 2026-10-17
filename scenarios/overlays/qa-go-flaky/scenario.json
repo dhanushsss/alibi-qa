@@ -1,0 +1,43 @@
+{
+  "id": "qa-go-flaky",
+  "title": "QA (Go): a docs-only commit turns CI red \u2014 leaked test state",
+  "summary": "A test leaves a cache file behind, so it fails on every second run in the same checkout (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/go-sessions",
+  "framework": "go",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (go 1.24)",
+  "ciCommand": [
+    "go",
+    "test",
+    "./..."
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: session store",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-docs",
+      "message": "docs: explain session persistence",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": "flaky_test",
+    "failingTest": {
+      "name": "TestStartsWithoutActiveSession"
+    },
+    "experiments": [
+      "reproduce",
+      "repeat",
+      "compare_parent",
+      "validate_patch"
+    ],
+    "remediation": "quarantine",
+    "notes": "Within one checkout, run k fails iff the previous run left .session-cache (every second run). The parent is just as flaky."
+  }
+}

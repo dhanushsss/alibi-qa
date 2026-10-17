@@ -1,0 +1,38 @@
+{
+  "id": "qa-go-unsupported-work",
+  "title": "QA (Go): go.work workspace is refused",
+  "summary": "A repository using a Go workspace file (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/go-billing",
+  "framework": "go",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (go 1.24)",
+  "ciCommand": [
+    "go",
+    "test",
+    "./..."
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: invoice totals",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-layout",
+      "message": "chore: restructure module",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": null,
+    "failingTest": {
+      "name": "TestTotal"
+    },
+    "experiments": [],
+    "remediation": null,
+    "notes": "Refused before installation: no dependencies installed, no tests run."
+  }
+}

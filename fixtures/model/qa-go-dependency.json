@@ -1,0 +1,92 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-go-dependency overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "golang.org/x/exp changed slices.SortFunc to take a cmp function returning int.",
+  "failure_signature": "golang.org/x/exp changed slices.SortFunc to take a cmp function returning int.",
+  "failing_tests": [],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "Upgrading golang.org/x/exp changed slices.SortFunc from a less function to a cmp function, so sorter.go no longer compiles.",
+    "category": "dependency_regression",
+    "supporting_evidence": [
+     {
+      "quote": "does not match inferred type func(a Task, b Task) int",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "The sorter code changed in this commit.",
+    "category": "code_regression",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "dependency_regression",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: dependency_regression.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "dependency_pin",
+  "limitations": []
+ },
+ "patchWrongDep": {
+  "explanation": "Move to a newer golang.org/x/exp.",
+  "files": [
+   {
+    "path": "go.mod",
+    "content": "module example.com/qa/tasks\n\ngo 1.22\n\nrequire golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842\n"
+   },
+   {
+    "path": "go.sum",
+    "content": "golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 h1:vr/HnozRka3pE4EsMEg1lgkXJkTFJCVUX+S/ZT6wYzM=\ngolang.org/x/exp v0.0.0-20240506185415-9bf2ced13842/go.mod h1:XtvwrStGgqGPLc4cjQfWqZHG1YFdYs6swckp8vpsjnc=\n"
+   }
+  ]
+ }
+}

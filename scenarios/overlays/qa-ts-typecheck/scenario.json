@@ -1,0 +1,42 @@
+{
+  "id": "qa-ts-typecheck",
+  "title": "QA (TypeScript): changing a return type breaks the type check",
+  "summary": "formatCents now returns an object, but receipt.ts still treats it as a string (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/ts-receipts",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "typecheck (node 20)",
+  "ciCommand": [
+    "npx",
+    "tsc",
+    "--noEmit",
+    "-p",
+    "tsconfig.json"
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: receipts",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-money-object",
+      "message": "refactor: formatCents returns Money",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": null,
+    "experiments": [
+      "reproduce",
+      "compare_parent",
+      "validate_patch"
+    ],
+    "remediation": "code_patch",
+    "notes": "tsc reports TS2322 in src/receipt.ts at the failing commit and passes at the parent. The fix must pass both the type check and the Jest suite."
+  }
+}

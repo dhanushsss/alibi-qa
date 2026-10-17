@@ -1,0 +1,6 @@
+{
+  "old": "v0.0.0-20230206171751-46f607a40771",
+  "new": "v0.0.0-20231006140011-7918f672742d",
+  "newer": "v0.0.0-20240506185415-9bf2ced13842",
+  "newerSum": "golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842 h1:vr/HnozRka3pE4EsMEg1lgkXJkTFJCVUX+S/ZT6wYzM=\ngolang.org/x/exp v0.0.0-20240506185415-9bf2ced13842/go.mod h1:XtvwrStGgqGPLc4cjQfWqZHG1YFdYs6swckp8vpsjnc=\n"
+}

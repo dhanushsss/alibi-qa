@@ -1,0 +1,22 @@
+{
+  "id": "qa-py-regression",
+  "title": "QA (pytest): table-driven refactor breaks the 1 kg boundary",
+  "summary": "A refactor of parcel rates into a lookup table made the small-parcel bound exclusive (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/py-shipping",
+  "framework": "pytest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (python 3.12)",
+  "ciCommand": ["python", "-m", "pytest"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: parcel shipping rates", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-05T10:00:00Z" },
+    { "dir": "02-refactor", "message": "refactor: table-driven parcel rates", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-06T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": { "file": "tests/test_rates.py", "name": "test_small_parcel_up_to_and_including_1kg" },
+    "experiments": ["reproduce", "repeat", "compare_parent", "validate_patch"],
+    "remediation": "code_patch",
+    "notes": "Exactly 1.0 kg now falls through to the standard rate. Fails deterministically on the refactor and passes on its parent."
+  }
+}

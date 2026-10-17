@@ -1,0 +1,22 @@
+{
+  "id": "qa-change-bad-dep",
+  "title": "QA (change verification): a dependency version that does not exist",
+  "summary": "The change adds a dependency pinned to a version that is not published, so dependencies cannot be installed at the changed revision (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/shipping-bad-dep",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": ["npx", "jest", "--ci"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: weight-band shipping rates", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-13T10:00:00Z" },
+    { "dir": "02-bump", "message": "feat: pad order ids", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-14T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "infrastructure",
+    "failingTest": { "file": "", "name": "" },
+    "experiments": [],
+    "remediation": "none",
+    "notes": "Change verification fixture. The sandbox cannot install dependencies at the changed revision, so the outcome must be blocked, never a confirmed diagnosis."
+  }
+}

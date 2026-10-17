@@ -1,0 +1,22 @@
+{
+  "id": "qa-all-rejected",
+  "title": "QA: price formatting regression with no safe fix",
+  "summary": "A commit adds formatPercent and breaks cent padding in formatPrice; reverting the source loses the new feature (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/invoice-format",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": ["npx", "jest", "--ci"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: price formatting", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-07T10:00:00Z" },
+    { "dir": "02-percent", "message": "feat: formatPercent; integer price formatting", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-08T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": { "file": "test/format.test.js", "name": "formatPrice pads cents to two digits" },
+    "experiments": ["reproduce", "compare_parent", "validate_patch", "regression_suite"],
+    "remediation": "none",
+    "notes": "Scripted model fixes are wrong; the deterministic revert passes the targeted test but fails the regression suite (formatPercent disappears). Every candidate is rejected."
+  }
+}

@@ -1,0 +1,88 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-go-build overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "report.go still calls stock.Available, which the rename removed.",
+  "failure_signature": "report.go still calls stock.Available, which the rename removed.",
+  "failing_tests": [],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "Renaming stock.Available to stock.Sellable left a caller in package report unchanged.",
+    "category": "code_regression",
+    "supporting_evidence": [
+     {
+      "quote": "undefined: stock.Available",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A dependency changed and removed the function.",
+    "category": "dependency_regression",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "code_regression",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: code_regression.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "code_patch",
+  "limitations": []
+ },
+ "patchCorrect": {
+  "explanation": "Call the renamed function from the report package.",
+  "files": [
+   {
+    "path": "report/report.go",
+    "content": "// Package report renders the nightly stock report.\npackage report\n\nimport (\n\t\"fmt\"\n\n\t\"example.com/qa/inventory/stock\"\n)\n\n// Line renders one report line.\nfunc Line(i stock.Item) string {\n\treturn fmt.Sprintf(\"%s: %d available\", i.SKU, stock.Sellable(i))\n}\n"
+   }
+  ]
+ }
+}

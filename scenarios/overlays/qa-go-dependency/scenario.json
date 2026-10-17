@@ -1,0 +1,40 @@
+{
+  "id": "qa-go-dependency",
+  "title": "QA (Go): golang.org/x/exp upgrade changes slices.SortFunc",
+  "summary": "A dependency bump of golang.org/x/exp changed SortFunc from a less function to a cmp function (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/go-tasks",
+  "framework": "go",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (go 1.24)",
+  "ciCommand": [
+    "go",
+    "test",
+    "./..."
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: task ordering",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-bump-exp",
+      "message": "build(deps): bump golang.org/x/exp",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": "dependency_regression",
+    "failingTest": null,
+    "experiments": [
+      "reproduce",
+      "compare_parent",
+      "validate_patch"
+    ],
+    "remediation": "dependency_pin",
+    "notes": "x/exp v0.0.0-20231006140011-7918f672742d expects func(a, b E) int. A model bump to v0.0.0-20240506185415-9bf2ced13842 still fails to compile and is rejected; the deterministic pin back to v0.0.0-20230206171751-46f607a40771 (go.mod + go.sum) validates."
+  }
+}

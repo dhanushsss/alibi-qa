@@ -1,0 +1,97 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-ts-typecheck overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "formatCents now returns Money, but receipt.ts still assigns it to a string.",
+  "failure_signature": "formatCents now returns Money, but receipt.ts still assigns it to a string.",
+  "failing_tests": [],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "Changing formatCents to return a Money object broke its callers in receipt.ts.",
+    "category": "code_regression",
+    "supporting_evidence": [
+     {
+      "quote": "Type 'Money' is not assignable to type 'string'.",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A TypeScript upgrade tightened type checking.",
+    "category": "dependency_regression",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "code_regression",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: code_regression.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "code_patch",
+  "limitations": []
+ },
+ "patchCorrect": {
+  "explanation": "Use the formatted text from the Money result.",
+  "files": [
+   {
+    "path": "src/receipt.ts",
+    "content": "import { formatCents } from './money';\n\nexport interface Line {\n  item: string;\n  cents: number;\n}\n\nexport function renderReceipt(lines: Line[]): string {\n  const total: string = formatCents(lines.reduce((sum, l) => sum + l.cents, 0)).text;\n  return [...lines.map((l) => `${l.item}: ${formatCents(l.cents).text}`), `Total: ${total}`].join('\\n');\n}\n"
+   }
+  ]
+ },
+ "patchCastOnly": {
+  "explanation": "Silence the type error with a cast.",
+  "files": [
+   {
+    "path": "src/receipt.ts",
+    "content": "import { formatCents } from './money';\n\nexport interface Line {\n  item: string;\n  cents: number;\n}\n\nexport function renderReceipt(lines: Line[]): string {\n  const total: string = formatCents(lines.reduce((sum, l) => sum + l.cents, 0)) as unknown as string;\n  return [...lines.map((l) => `${l.item}: ${formatCents(l.cents)}`), `Total: ${total}`].join('\\n');\n}\n"
+   }
+  ]
+ }
+}

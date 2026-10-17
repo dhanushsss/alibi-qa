@@ -1,0 +1,5 @@
+--- FAIL: TestTotal (0.00s)
+    invoice_test.go:7: total
+FAIL
+FAIL	example.com/qa/billing/invoice	0.001s
+FAIL

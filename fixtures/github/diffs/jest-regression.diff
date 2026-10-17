@@ -1,0 +1,11 @@
+diff --git a/src/rounding.js b/src/rounding.js
+index 3b18e51..9d1f2a4 100644
+--- a/src/rounding.js
++++ b/src/rounding.js
+@@ -1,5 +1,5 @@
+ 'use strict';
+ 
+ function roundCurrency(value) {
+-  return Math.round(value * 100) / 100;
++  return Math.floor(value * 100) / 100;
+ }

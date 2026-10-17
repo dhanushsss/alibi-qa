@@ -1,0 +1,61 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa overlay scenario. Shapes follow Alibi triage/verdict/patch/next-action schemas.",
+  "triage": {
+    "summary": "Probe failure (intentional).",
+    "failure_signature": "Probe failure (intentional).",
+    "failing_tests": [
+      {
+        "name": "isolation probe",
+        "file": "test/probe.test.js"
+      }
+    ],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "The probe fails on purpose.",
+        "category": "unknown",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "unknown",
+    "verdict": "inconclusive",
+    "summary": "Scripted QA verdict: unknown.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "inconclusive",
+        "assessment": "QA scripted: inconclusive."
+      },
+      {
+        "id": "H2",
+        "status": "inconclusive",
+        "assessment": "QA scripted: inconclusive."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "none",
+    "limitations": []
+  }
+}

@@ -1,0 +1,46 @@
+FAIL src/discounts.test.ts
+  discountRate
+    ✓ no discount below $100 (1 ms)
+    ✕ applies 10% at exactly $100.00 (1 ms)
+    ✕ applies 15% from $250 (1 ms)
+    ✓ keeps 15% above $250
+
+  ● discountRate › applies 10% at exactly $100.00
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0.1
+    Received: 0
+
+      3 | describe('discountRate', () => {
+      4 |   test('no discount below $100', () => expect(discountRate(9999)).toBe(0));
+    > 5 |   test('applies 10% at exactly $100.00', () => expect(discountRate(10000)).toBe(0.1));
+        |                                                                            ^
+      6 |   test('applies 15% from $250', () => expect(discountRate(25000)).toBe(0.15));
+      7 |   test('keeps 15% above $250', () => expect(discountRate(40000)).toBe(0.15));
+      8 | });
+
+      at Object.<anonymous> (src/discounts.test.ts:5:76)
+
+  ● discountRate › applies 15% from $250
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0.15
+    Received: 0.1
+
+      4 |   test('no discount below $100', () => expect(discountRate(9999)).toBe(0));
+      5 |   test('applies 10% at exactly $100.00', () => expect(discountRate(10000)).toBe(0.1));
+    > 6 |   test('applies 15% from $250', () => expect(discountRate(25000)).toBe(0.15));
+        |                                                                   ^
+      7 |   test('keeps 15% above $250', () => expect(discountRate(40000)).toBe(0.15));
+      8 | });
+      9 |
+
+      at Object.<anonymous> (src/discounts.test.ts:6:67)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 2 passed, 4 total
+Snapshots:   0 total
+Time:        1.269 s
+Ran all test suites.

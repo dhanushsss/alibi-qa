@@ -1,0 +1,18 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/shipping-bad-dep
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-node@v4
+2026-10-15T09:00:00.3700000Z Set up Node.js 20
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run npx jest --ci
+2026-10-15T09:00:00.4810000Z npx jest --ci
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z npm ERR! code ETARGET
+2026-10-15T09:00:00.5920000Z npm ERR! notarget No matching version found for left-pad@999.999.999.
+2026-10-15T09:00:00.6290000Z ##[error]Process completed with exit code 1.

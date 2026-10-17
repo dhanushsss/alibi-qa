@@ -1,0 +1,110 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-ts-regression overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "The tier lookup uses > instead of >=, so exact thresholds skip their tier.",
+  "failure_signature": "The tier lookup uses > instead of >=, so exact thresholds skip their tier.",
+  "failing_tests": [
+   {
+    "name": "discountRate applies 10% at exactly $100.00",
+    "file": "src/discounts.test.ts"
+   }
+  ],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "The refactor changed >= to > in tier qualification, so $100.00 and $250.00 get the lower tier.",
+    "category": "code_regression",
+    "supporting_evidence": [
+     {
+      "quote": "Expected: 0.1",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "The failing test is nondeterministic and fails intermittently.",
+    "category": "flaky_test",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "repeat"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "code_regression",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: code_regression.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "code_patch",
+  "limitations": []
+ },
+ "patchCorrect": {
+  "explanation": "Restore >= in tier qualification.",
+  "files": [
+   {
+    "path": "src/discounts.ts",
+    "content": "/** Discount tiers, highest first. A tier applies from its threshold, inclusive. */\nconst TIERS = [\n  { minCents: 25000, rate: 0.15 },\n  { minCents: 10000, rate: 0.1 },\n] as const;\n\nexport function discountRate(subtotalCents: number): number {\n  const tier = TIERS.find((t) => subtotalCents >= t.minCents);\n  return tier ? tier.rate : 0;\n}\n"
+   }
+  ]
+ },
+ "patchWrong": {
+  "explanation": "Check tiers from the lowest threshold up.",
+  "files": [
+   {
+    "path": "src/discounts.ts",
+    "content": "/** Discount tiers, highest first. A tier applies from its threshold, inclusive. */\nconst TIERS = [\n  { minCents: 25000, rate: 0.15 },\n  { minCents: 10000, rate: 0.1 },\n] as const;\n\nexport function discountRate(subtotalCents: number): number {\n  const tier = [...TIERS].reverse().find((t) => subtotalCents >= t.minCents);\n  return tier ? tier.rate : 0;\n}\n"
+   }
+  ]
+ },
+ "patchEditsTest": {
+  "explanation": "Update the boundary expectations.",
+  "files": [
+   {
+    "path": "src/discounts.test.ts",
+    "content": "import { discountRate } from './discounts';\n\ndescribe('discountRate', () => {\n  test('no discount below $100', () => expect(discountRate(9999)).toBe(0));\n  test('applies 10% at exactly $100.00', () => expect(discountRate(10000)).toBe(0));\n  test('applies 15% from $250', () => expect(discountRate(25000)).toBe(0.15));\n  test('keeps 15% above $250', () => expect(discountRate(40000)).toBe(0.15));\n});\n"
+   }
+  ]
+ }
+}

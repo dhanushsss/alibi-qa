@@ -1,0 +1,87 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa pytest overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+  "triage": {
+    "summary": "packaging 24.1 no longer provides LegacyVersion, so the test module fails to import.",
+    "failure_signature": "packaging 24.1 no longer provides LegacyVersion, so the test module fails to import.",
+    "failing_tests": [],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "Upgrading packaging from 21.3 to 24.1 removed LegacyVersion, which releases/tags.py imports.",
+        "category": "dependency_regression",
+        "supporting_evidence": [
+          {
+            "quote": "cannot import name 'LegacyVersion' from 'packaging.version'",
+            "line": 1
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "The failing test is nondeterministic and fails intermittently.",
+        "category": "flaky_test",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "repeat"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "dependency_regression",
+    "verdict": "probable",
+    "summary": "Scripted QA verdict: dependency_regression.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "QA scripted: supported."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      },
+      {
+        "id": "H3",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "dependency_pin",
+    "limitations": []
+  },
+  "patchWrongDep": {
+    "explanation": "Move to packaging 22.0, the first release of the new major line.",
+    "files": [
+      {
+        "path": "requirements.txt",
+        "content": "packaging==22.0\npytest==8.3.3\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/go-sessions
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-go@v5
+2026-10-15T09:00:00.3700000Z Set up Go 1.24.9
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run go test ./...
+2026-10-15T09:00:00.4810000Z go test ./...
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z --- FAIL: TestStartsWithoutActiveSession (0.00s)
+2026-10-15T09:00:00.5920000Z     session_test.go:13: a session is already active before Start
+2026-10-15T09:00:00.6290000Z FAIL
+2026-10-15T09:00:00.6660000Z FAIL	example.com/qa/sessions/session	0.001s
+2026-10-15T09:00:00.7030000Z FAIL
+2026-10-15T09:00:00.7400000Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,2 @@
+# example.com/qa/inventory/report
+report/report.go:12:54: undefined: stock.Available

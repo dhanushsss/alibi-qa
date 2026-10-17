@@ -1,0 +1,88 @@
+{
+ "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa qa-ts-dependency overlay scenario. Shapes follow Alibi triage/verdict/patch schemas.",
+ "triage": {
+  "summary": "nanoid 5 is ESM-only, so the CommonJS test build cannot load it.",
+  "failure_signature": "nanoid 5 is ESM-only, so the CommonJS test build cannot load it.",
+  "failing_tests": [],
+  "environment_clues": [],
+  "implicated_dependencies": [],
+  "hypotheses": [
+   {
+    "cause": "Upgrading nanoid from 3.3.7 to 5.0.7 switched to an ESM-only package that ts-jest output cannot require.",
+    "category": "dependency_regression",
+    "supporting_evidence": [
+     {
+      "quote": "SyntaxError: Cannot use import statement outside a module",
+      "line": 1
+     }
+    ],
+    "contradicting_evidence": [],
+    "prior": "high",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "The order id code changed in this commit.",
+    "category": "code_regression",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce",
+     "compare_parent"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   },
+   {
+    "cause": "A transient CI runner problem.",
+    "category": "infrastructure",
+    "supporting_evidence": [],
+    "contradicting_evidence": [],
+    "prior": "low",
+    "experiments": [
+     "reproduce"
+    ],
+    "next_experiment": "Run the selection in the sandbox."
+   }
+  ],
+  "search_queries": []
+ },
+ "verdict": {
+  "classification": "dependency_regression",
+  "verdict": "probable",
+  "summary": "Scripted QA verdict: dependency_regression.",
+  "primary_hypothesis": "H1",
+  "hypotheses": [
+   {
+    "id": "H1",
+    "status": "supported",
+    "assessment": "QA scripted: supported."
+   },
+   {
+    "id": "H2",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   },
+   {
+    "id": "H3",
+    "status": "refuted",
+    "assessment": "QA scripted: refuted."
+   }
+  ],
+  "recommended_action": "Apply the validated remediation, if any.",
+  "remediation_type": "dependency_pin",
+  "limitations": []
+ },
+ "patchWrongDep": {
+  "explanation": "Use nanoid 4, the previous major line.",
+  "files": [
+   {
+    "path": "package.json",
+    "content": "{\n  \"name\": \"order-ids\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": {\n    \"test\": \"jest\",\n    \"typecheck\": \"tsc --noEmit -p tsconfig.json\"\n  },\n  \"dependencies\": {\n    \"nanoid\": \"4.0.2\"\n  },\n  \"devDependencies\": {\n    \"@types/jest\": \"29.5.14\",\n    \"@types/node\": \"20.17.6\",\n    \"jest\": \"29.7.0\",\n    \"ts-jest\": \"29.2.5\",\n    \"typescript\": \"5.6.3\"\n  },\n  \"jest\": {\n    \"preset\": \"ts-jest\",\n    \"testEnvironment\": \"node\"\n  }\n}\n"
+   }
+  ]
+ }
+}

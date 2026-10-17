@@ -1,0 +1,22 @@
+{
+  "id": "qa-code-regression",
+  "title": "QA: weight-band boundary regression",
+  "summary": "A refactor changes <= to < in shipping weight bands (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/shipping-calculator",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": ["npx", "jest", "--ci"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: weight-band shipping rates", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-01T10:00:00Z" },
+    { "dir": "02-refactor", "message": "refactor: find the band with Array.find", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-02T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": { "file": "test/shipping.test.js", "name": "shippingCents charges the small-parcel rate up to and including 1 kg" },
+    "experiments": ["reproduce", "repeat", "compare_parent", "validate_patch"],
+    "remediation": "code_patch",
+    "notes": "Fails deterministically at the failing commit (1000 g and 20000 g boundaries); parent passes. Fix: < back to <=."
+  }
+}

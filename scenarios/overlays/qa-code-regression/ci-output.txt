@@ -1,0 +1,38 @@
+FAIL test/shipping.test.js
+  ● shippingCents › charges the small-parcel rate up to and including 1 kg
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 499
+    Received: 899
+
+       5 | describe('shippingCents', () => {
+       6 |   test('charges the small-parcel rate up to and including 1 kg', () => {
+    >  7 |     expect(shippingCents(1000)).toBe(499);
+         |                                 ^
+       8 |   });
+
+      at Object.toBe (test/shipping.test.js:7:33)
+
+  ● shippingCents › charges the large rate at exactly 20 kg
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1999
+    Received: null
+
+      13 |
+      14 |   test('charges the large rate at exactly 20 kg', () => {
+    > 15 |     expect(shippingCents(20000)).toBe(1999);
+         |                                  ^
+      16 |   });
+
+      at Object.toBe (test/shipping.test.js:15:34)
+
+PASS test/format.test.js
+
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       2 failed, 4 passed, 6 total
+Snapshots:   0 total
+Time:        0.412 s
+Ran all test suites.

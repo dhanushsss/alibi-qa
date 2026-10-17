@@ -1,0 +1,28 @@
+FAIL test/ids.test.js
+  ● newOrderId › is prefixed and has 32 hex characters
+
+    Cannot find module 'uuid/v4' from 'src/ids.js'
+
+      4 | function newOrderId() {
+      5 |   // Deep import kept from the original implementation.
+    > 6 |   const v4 = require('uuid/v4');
+        |              ^
+      7 |   return `ord_${v4().replace(/-/g, '')}`;
+      8 | }
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at require (src/ids.js:6:14)
+      at Object.newOrderId (test/ids.test.js:6:12)
+
+  ● newOrderId › does not repeat across calls
+
+    Cannot find module 'uuid/v4' from 'src/ids.js'
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at require (src/ids.js:6:14)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 2 total
+Snapshots:   0 total
+Time:        0.388 s
+Ran all test suites.

@@ -1,0 +1,23 @@
+FAIL src/total.test.ts
+  ✕ sums (2 ms)
+
+  ● sums
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 3
+    Received: 2
+
+      1 | import { total } from './total';
+      2 |
+    > 3 | test('sums', () => expect(total([1, 2])).toBe(3));
+        |                                          ^
+      4 |
+
+      at Object.<anonymous> (src/total.test.ts:3:42)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        1.288 s
+Ran all test suites.

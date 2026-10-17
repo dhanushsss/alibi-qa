@@ -1,0 +1,22 @@
+FAIL test/format.test.js
+  ● formatPrice › pads cents to two digits
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "$19.05"
+    Received: "$19.5"
+
+       9 |
+      10 |   test('pads cents to two digits', () => {
+    > 11 |     expect(formatPrice(1905)).toBe('$19.05');
+         |                               ^
+      12 |   });
+      13 | });
+
+      at Object.toBe (test/format.test.js:11:31)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 2 passed, 3 total
+Snapshots:   0 total
+Time:        0.297 s
+Ran all test suites.

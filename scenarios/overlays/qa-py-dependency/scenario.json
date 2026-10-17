@@ -1,0 +1,22 @@
+{
+  "id": "qa-py-dependency",
+  "title": "QA (pytest): packaging 22+ removes LegacyVersion",
+  "summary": "A dependency bump (packaging 21.3 -> 24.1) removes the LegacyVersion class the release-tag sorter imports (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/py-release-tags",
+  "framework": "pytest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (python 3.12)",
+  "ciCommand": ["python", "-m", "pytest"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: release tag ordering", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-09T10:00:00Z" },
+    { "dir": "02-bump", "message": "build(deps): bump packaging from 21.3 to 24.1", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-10T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "dependency_regression",
+    "failingTest": { "file": "tests/test_tags.py", "name": "collection error" },
+    "experiments": ["reproduce", "compare_parent", "validate_patch"],
+    "remediation": "dependency_pin",
+    "notes": "packaging 22.0 removed LegacyVersion, so the test module fails to import. A model change to packaging 22.0 still fails validation; the deterministic pin back to 21.3 validates."
+  }
+}

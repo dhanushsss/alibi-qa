@@ -1,0 +1,14 @@
+{
+  "$comment": "Illustrative example of the alibi-qa/report@1 format. Not a real result.",
+  "schema": "alibi-qa/report@1",
+  "runId": "EXAMPLE",
+  "selection": { "suite": "all", "tier": "offline", "grep": null },
+  "target": { "repo": "~/Desktop/Alibi", "commit": "0000000000000000000000000000000000000000", "subject": "example subject" },
+  "safety": { "originalRepositoryUnchanged": true },
+  "summary": { "total": 6, "passed": 3, "failed": 1, "skipped": 1, "todo": 1, "probesFailing": 1 },
+  "files": [{ "file": "api/contract.test.ts", "area": "D. API and reliability", "passed": 2, "failed": 0, "skipped": 0, "todo": 0 }],
+  "requirements": { "A5": { "passed": 1, "failed": 1, "skipped": 0, "todo": 1, "tests": ["[A5] example failing test"] } },
+  "failures": [{ "file": "scenarios/inconclusive.test.ts", "test": "A5 inconclusive diagnosis › [A5] example failing test", "error": { "message": "expected verdict \"inconclusive\", got \"probable\"" } }],
+  "skipped": [{ "file": "scenarios/core.docker.test.ts", "test": "[A1] example", "reason": "missing prerequisite: docker daemon (not running)" }],
+  "probes": [{ "file": "api/reliability.test.ts", "test": "[D12] example probe", "status": "todo-failing", "note": "probe: description" }]
+}

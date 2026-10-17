@@ -1,0 +1,5 @@
+--- FAIL: TestStartsWithoutActiveSession (0.00s)
+    session_test.go:13: a session is already active before Start
+FAIL
+FAIL	example.com/qa/sessions/session	0.001s
+FAIL

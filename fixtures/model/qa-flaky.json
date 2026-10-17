@@ -1,0 +1,84 @@
+{
+  "$comment": "Scripted Nemotron outputs (synthetic) for the alibi-qa overlay scenario. Shapes follow Alibi triage/verdict/patch/next-action schemas.",
+  "triage": {
+    "summary": "Delivery order depends on random jitter; the commit only changes documentation.",
+    "failure_signature": "Delivery order depends on random jitter; the commit only changes documentation.",
+    "failing_tests": [
+      {
+        "name": "plan delivers notifications in submission order",
+        "file": "test/batcher.test.js"
+      }
+    ],
+    "environment_clues": [],
+    "implicated_dependencies": [],
+    "hypotheses": [
+      {
+        "cause": "Random jitter larger than the spacing reorders deliveries for some seeds.",
+        "category": "flaky_test",
+        "supporting_evidence": [
+          {
+            "quote": "Seed:        4242000",
+            "line": 16
+          }
+        ],
+        "contradicting_evidence": [],
+        "prior": "high",
+        "experiments": [
+          "reproduce",
+          "repeat",
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "The documentation commit broke delivery planning.",
+        "category": "code_regression",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "compare_parent"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      },
+      {
+        "cause": "A transient CI runner problem.",
+        "category": "infrastructure",
+        "supporting_evidence": [],
+        "contradicting_evidence": [],
+        "prior": "low",
+        "experiments": [
+          "reproduce"
+        ],
+        "next_experiment": "Run the selection in the sandbox."
+      }
+    ],
+    "search_queries": []
+  },
+  "verdict": {
+    "classification": "flaky_test",
+    "verdict": "confirmed",
+    "summary": "Scripted QA verdict: flaky_test.",
+    "primary_hypothesis": "H1",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "status": "supported",
+        "assessment": "QA scripted: supported."
+      },
+      {
+        "id": "H2",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      },
+      {
+        "id": "H3",
+        "status": "refuted",
+        "assessment": "QA scripted: refuted."
+      }
+    ],
+    "recommended_action": "Apply the validated remediation, if any.",
+    "remediation_type": "quarantine",
+    "limitations": []
+  }
+}

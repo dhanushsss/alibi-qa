@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0
+collected 1 item
+
+tests/test_greet.py F                                                    [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_greets_by_name ______________________________
+
+    def test_greets_by_name():
+>       assert greet("Ada") == "Hello, Ada!"
+E       AssertionError: assert 'Hi Ada' == 'Hello, Ada!'
+
+tests/test_greet.py:5: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_greet.py::test_greets_by_name - AssertionError: assert 'Hi Ada' == 'Hello, Ada!'
+============================== 1 failed in 0.02s ===============================

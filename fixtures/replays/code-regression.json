@@ -1,0 +1,37 @@
+{
+  "$comment": "QA-authored replay recording for Alibi's built-in code-regression demo scenario. Synthetic: NOT a recording of a live Nemotron run. Used so browser tests exercise Replay mode without any provider.",
+  "scenarioId": "code-regression",
+  "recordedAt": "2026-10-16T00:00:00.000Z",
+  "investigationId": "inv_qa_replay_fixture",
+  "baseUrl": "http://127.0.0.1/qa-replay-fixture",
+  "steps": {
+    "triage": {
+      "model": "qa-replay/nemotron-3-lightning",
+      "recordedAt": "2026-10-16T00:00:00.000Z",
+      "output": {
+        "summary": "Discount tiers no longer include their lower bound after the refactor.",
+        "failure_signature": "jest: discountRate applies 10% at exactly the $100.00 threshold",
+        "failing_tests": [{ "name": "discountRate applies 10% at exactly the $100.00 threshold", "file": "test/discounts.test.js" }],
+        "hypotheses": [
+          { "cause": "The refactor changed >= to > in the tier lookup.", "category": "code_regression", "supporting_evidence": [{ "quote": "Expected: 0.1" }], "contradicting_evidence": [], "prior": "high", "experiments": ["reproduce", "compare_parent"], "next_experiment": "Compare against the parent." },
+          { "cause": "The discount test is flaky.", "category": "flaky_test", "supporting_evidence": [], "contradicting_evidence": [], "prior": "low", "experiments": ["repeat"], "next_experiment": "Repeat the test." }
+        ],
+        "search_queries": []
+      }
+    },
+    "verdict": {
+      "model": "qa-replay/nemotron-3-super",
+      "recordedAt": "2026-10-16T00:00:00.000Z",
+      "output": {
+        "classification": "code_regression",
+        "verdict": "probable",
+        "summary": "The tier comparison change is the likely cause; no experiment could run.",
+        "primary_hypothesis": "H1",
+        "hypotheses": [{ "id": "H1", "status": "inconclusive", "assessment": "Untested." }, { "id": "H2", "status": "inconclusive", "assessment": "Untested." }],
+        "recommended_action": "Run the experiments with the sandbox enabled.",
+        "remediation_type": "code_patch",
+        "limitations": []
+      }
+    }
+  }
+}

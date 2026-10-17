@@ -1,0 +1,13 @@
+{
+  "name": "sandbox-probe",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Benign isolation probe executed inside Alibi's sandbox (alibi-qa fixture).",
+  "scripts": {
+    "preinstall": "node -e \"require('fs').writeFileSync('.qa-preinstall-ran', 'lifecycle scripts executed')\"",
+    "test": "jest --ci"
+  },
+  "devDependencies": {
+    "jest": "29.7.0"
+  }
+}

@@ -1,0 +1,62 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/ts-order-ids
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-node@v4
+2026-10-15T09:00:00.3700000Z Set up Node.js 20
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run npx jest --ci
+2026-10-15T09:00:00.4810000Z npx jest --ci
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z FAIL src/ids.test.ts
+2026-10-15T09:00:00.5920000Z   ● Test suite failed to run
+2026-10-15T09:00:00.6290000Z 
+2026-10-15T09:00:00.6660000Z     Jest encountered an unexpected token
+2026-10-15T09:00:00.7030000Z 
+2026-10-15T09:00:00.7400000Z     Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+2026-10-15T09:00:00.7770000Z 
+2026-10-15T09:00:00.8140000Z     Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+2026-10-15T09:00:00.8510000Z 
+2026-10-15T09:00:00.8880000Z     By default "node_modules" folder is ignored by transformers.
+2026-10-15T09:00:00.9250000Z 
+2026-10-15T09:00:00.9620000Z     Here's what you can do:
+2026-10-15T09:00:00.9990000Z      • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+2026-10-15T09:00:01.0360000Z      • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+2026-10-15T09:00:01.0730000Z      • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+2026-10-15T09:00:01.1100000Z      • If you need a custom transformation specify a "transform" option in your config.
+2026-10-15T09:00:01.1470000Z      • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+2026-10-15T09:00:01.1840000Z 
+2026-10-15T09:00:01.2210000Z     You'll find more details and examples of these config options in the docs:
+2026-10-15T09:00:01.2580000Z     https://jestjs.io/docs/configuration
+2026-10-15T09:00:01.2950000Z     For information about custom transformations, see:
+2026-10-15T09:00:01.3320000Z     https://jestjs.io/docs/code-transformation
+2026-10-15T09:00:01.3690000Z 
+2026-10-15T09:00:01.4060000Z     Details:
+2026-10-15T09:00:01.4430000Z 
+2026-10-15T09:00:01.4800000Z     /home/runner/work/fixture/fixture/node_modules/nanoid/index.js:1
+2026-10-15T09:00:01.5170000Z     ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){import { webcrypto as crypto } from 'node:crypto'
+2026-10-15T09:00:01.5540000Z                                                                                       ^^^^^^
+2026-10-15T09:00:01.5910000Z 
+2026-10-15T09:00:01.6280000Z     SyntaxError: Cannot use import statement outside a module
+2026-10-15T09:00:01.6650000Z 
+2026-10-15T09:00:01.7020000Z     > 1 | import { nanoid } from 'nanoid';
+2026-10-15T09:00:01.7390000Z         | ^
+2026-10-15T09:00:01.7760000Z       2 |
+2026-10-15T09:00:01.8130000Z       3 | /** Order ids look like "ord_" followed by 12 URL-safe characters. */
+2026-10-15T09:00:01.8500000Z       4 | export function newOrderId(): string {
+2026-10-15T09:00:01.8870000Z 
+2026-10-15T09:00:01.9240000Z       at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+2026-10-15T09:00:01.9610000Z       at Object.<anonymous> (src/ids.ts:1:1)
+2026-10-15T09:00:01.9980000Z       at Object.<anonymous> (src/ids.test.ts:1:1)
+2026-10-15T09:00:02.0350000Z 
+2026-10-15T09:00:02.0720000Z Test Suites: 1 failed, 1 total
+2026-10-15T09:00:02.1090000Z Tests:       0 total
+2026-10-15T09:00:02.1460000Z Snapshots:   0 total
+2026-10-15T09:00:02.1830000Z Time:        1.217 s
+2026-10-15T09:00:02.2200000Z Ran all test suites.
+2026-10-15T09:00:02.2570000Z ##[error]Process completed with exit code 1.

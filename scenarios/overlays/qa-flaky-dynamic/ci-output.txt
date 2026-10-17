@@ -1,0 +1,23 @@
+Seed:        4242000
+FAIL test/batcher.test.js
+  ● plan › delivers notifications in submission order
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Array [
+        "a",
+    -   "b",
+        "c",
+    +   "b",
+      ]
+
+      at Object.toEqual (test/batcher.test.js:13:19)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 passed, 2 total
+Snapshots:   0 total
+Time:        0.301 s
+Ran all test suites.

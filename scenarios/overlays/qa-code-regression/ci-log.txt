@@ -1,0 +1,54 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/shipping-calculator
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-node@v4
+2026-10-15T09:00:00.3700000Z Set up Node.js 20
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run npx jest --ci
+2026-10-15T09:00:00.4810000Z npx jest --ci
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z FAIL test/shipping.test.js
+2026-10-15T09:00:00.5920000Z   ● shippingCents › charges the small-parcel rate up to and including 1 kg
+2026-10-15T09:00:00.6290000Z 
+2026-10-15T09:00:00.6660000Z     expect(received).toBe(expected) // Object.is equality
+2026-10-15T09:00:00.7030000Z 
+2026-10-15T09:00:00.7400000Z     Expected: 499
+2026-10-15T09:00:00.7770000Z     Received: 899
+2026-10-15T09:00:00.8140000Z 
+2026-10-15T09:00:00.8510000Z        5 | describe('shippingCents', () => {
+2026-10-15T09:00:00.8880000Z        6 |   test('charges the small-parcel rate up to and including 1 kg', () => {
+2026-10-15T09:00:00.9250000Z     >  7 |     expect(shippingCents(1000)).toBe(499);
+2026-10-15T09:00:00.9620000Z          |                                 ^
+2026-10-15T09:00:00.9990000Z        8 |   });
+2026-10-15T09:00:01.0360000Z 
+2026-10-15T09:00:01.0730000Z       at Object.toBe (test/shipping.test.js:7:33)
+2026-10-15T09:00:01.1100000Z 
+2026-10-15T09:00:01.1470000Z   ● shippingCents › charges the large rate at exactly 20 kg
+2026-10-15T09:00:01.1840000Z 
+2026-10-15T09:00:01.2210000Z     expect(received).toBe(expected) // Object.is equality
+2026-10-15T09:00:01.2580000Z 
+2026-10-15T09:00:01.2950000Z     Expected: 1999
+2026-10-15T09:00:01.3320000Z     Received: null
+2026-10-15T09:00:01.3690000Z 
+2026-10-15T09:00:01.4060000Z       13 |
+2026-10-15T09:00:01.4430000Z       14 |   test('charges the large rate at exactly 20 kg', () => {
+2026-10-15T09:00:01.4800000Z     > 15 |     expect(shippingCents(20000)).toBe(1999);
+2026-10-15T09:00:01.5170000Z          |                                  ^
+2026-10-15T09:00:01.5540000Z       16 |   });
+2026-10-15T09:00:01.5910000Z 
+2026-10-15T09:00:01.6280000Z       at Object.toBe (test/shipping.test.js:15:34)
+2026-10-15T09:00:01.6650000Z 
+2026-10-15T09:00:01.7020000Z PASS test/format.test.js
+2026-10-15T09:00:01.7390000Z 
+2026-10-15T09:00:01.7760000Z Test Suites: 1 failed, 1 passed, 2 total
+2026-10-15T09:00:01.8130000Z Tests:       2 failed, 4 passed, 6 total
+2026-10-15T09:00:01.8500000Z Snapshots:   0 total
+2026-10-15T09:00:01.8870000Z Time:        0.412 s
+2026-10-15T09:00:01.9240000Z Ran all test suites.
+2026-10-15T09:00:01.9610000Z ##[error]Process completed with exit code 1.

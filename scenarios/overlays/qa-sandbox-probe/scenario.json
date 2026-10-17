@@ -1,0 +1,22 @@
+{
+  "id": "qa-sandbox-probe",
+  "title": "QA: sandbox isolation probe",
+  "summary": "Benign probe that reports what a test can observe inside Zerqis's sandbox (alibi-qa security fixture).",
+  "repository": "alibi-qa/sandbox-probe",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": ["npx", "jest", "--ci"],
+  "commits": [
+    { "dir": "01-base", "message": "test: isolation probe", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-09T10:00:00Z" },
+    { "dir": "02-docs", "message": "docs: describe the probe", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-10T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "unknown",
+    "failingTest": { "file": "test/probe.test.js", "name": "isolation probe" },
+    "experiments": ["reproduce", "compare_parent"],
+    "remediation": "none",
+    "notes": "Always fails on purpose. The security suite parses QA_PROBE_RESULT from the recorded sandbox output."
+  }
+}

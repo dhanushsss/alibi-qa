@@ -1,0 +1,12 @@
+{
+  "name": "invoice-format",
+  "version": "3.1.0",
+  "private": true,
+  "description": "Invoice amount formatting (alibi-qa fixture).",
+  "scripts": {
+    "test": "jest --ci"
+  },
+  "devDependencies": {
+    "jest": "29.7.0"
+  }
+}

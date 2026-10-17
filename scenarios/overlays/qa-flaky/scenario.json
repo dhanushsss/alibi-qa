@@ -1,0 +1,22 @@
+{
+  "id": "qa-flaky",
+  "title": "QA: order-dependent flaky test",
+  "summary": "A docs-only commit turns CI red; delivery order depends on seeded random jitter (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/notification-batcher",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": ["npx", "jest", "--ci", "--showSeed"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: delivery planning with jitter", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-05T10:00:00Z" },
+    { "dir": "02-docs", "message": "docs: document tuning knobs", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-06T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "flaky_test",
+    "failingTest": { "file": "test/batcher.test.js", "name": "plan delivers notifications in submission order" },
+    "experiments": ["reproduce", "repeat", "compare_parent"],
+    "remediation": "quarantine",
+    "notes": "Seed 4242000 fails. Seeds k*65537 for k=1..6 fail on k=1,2,5,6. Quarantine of the single flaky test validates."
+  }
+}

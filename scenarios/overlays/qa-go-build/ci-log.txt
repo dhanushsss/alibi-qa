@@ -1,0 +1,18 @@
+2026-10-15T09:00:00.0000000Z Current runner version: '2.329.0'
+2026-10-15T09:00:00.0370000Z Operating System
+2026-10-15T09:00:00.0740000Z   Ubuntu
+2026-10-15T09:00:00.1110000Z   24.04.3
+2026-10-15T09:00:00.1480000Z ##[group]Run actions/checkout@v4
+2026-10-15T09:00:00.1850000Z with:
+2026-10-15T09:00:00.2220000Z   repository: alibi-qa/go-inventory
+2026-10-15T09:00:00.2590000Z   token: ***
+2026-10-15T09:00:00.2960000Z ##[endgroup]
+2026-10-15T09:00:00.3330000Z ##[group]Run actions/setup-go@v5
+2026-10-15T09:00:00.3700000Z Set up Go 1.24.9
+2026-10-15T09:00:00.4070000Z ##[endgroup]
+2026-10-15T09:00:00.4440000Z ##[group]Run go build ./...
+2026-10-15T09:00:00.4810000Z go build ./...
+2026-10-15T09:00:00.5180000Z ##[endgroup]
+2026-10-15T09:00:00.5550000Z # example.com/qa/inventory/report
+2026-10-15T09:00:00.5920000Z report/report.go:12:54: undefined: stock.Available
+2026-10-15T09:00:00.6290000Z ##[error]Process completed with exit code 1.

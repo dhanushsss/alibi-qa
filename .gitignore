@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Disposable workspace: target clone, per-run data dirs, server logs, SQLite files.
+# Never commit anything from here.
+.work/
+
+# Generated reports and test artifacts (only reports/README.md and reports/examples/ are tracked)
+reports/out/
+test-results/
+playwright-report/
+blob-report/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Databases, recordings, screenshots, traces
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.png
+*.webm
+*.zip
+*.har
+*.log
+
+# OS / editor
+.DS_Store

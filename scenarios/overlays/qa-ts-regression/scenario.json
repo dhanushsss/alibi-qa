@@ -1,0 +1,43 @@
+{
+  "id": "qa-ts-regression",
+  "title": "QA (TypeScript): a refactor breaks the $100 and $250 discount boundaries",
+  "summary": "Replacing the tier loop with Array.find changed >= to > (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/ts-pricing",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": [
+    "npx",
+    "jest",
+    "--ci"
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: discount tiers",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-refactor",
+      "message": "refactor: find the discount tier",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": "code_regression",
+    "failingTest": {
+      "file": "src/discounts.test.ts"
+    },
+    "experiments": [
+      "reproduce",
+      "repeat",
+      "compare_parent",
+      "validate_patch"
+    ],
+    "remediation": "code_patch",
+    "notes": "Two boundary tests fail deterministically on the refactor; the parent passes."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$comment": "Target under test. The repository is read-only to this suite: it is cloned at `commit` into the workspace and never modified.",
+  "repo": "../Alibi",
+  "commit": "669c6c0",
+  "expectedSubject": "feat: add bounded investigation loop and evidence path",
+  "deps": "copy",
+  "source": "worktree",
+  "workDir": ".work",
+  "docker": {
+    "nodeImage": "node:20-bookworm-slim",
+    "mavenImage": "maven:3.9-eclipse-temurin-17",
+    "pythonImage": "python:3.12.7-slim-bookworm@sha256:60d9996b6a8a3689d36db740b49f4327be3be09a21122bd02fb8895abb38b50d",
+    "goImage": "golang:1.24.9-bookworm@sha256:737b40b61ce956d738bed59f18ba854d8d67e7a4c4fa63f64437f4c70247ac5b"
+  }
+}

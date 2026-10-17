@@ -1,0 +1,22 @@
+{
+  "id": "qa-dependency-incompat",
+  "title": "QA: uuid major upgrade breaks a deep import",
+  "summary": "A dependency bump (uuid 3.4.0 -> 9.0.1) removes the deep import path the code uses (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/order-ids",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": ["npx", "jest", "--ci"],
+  "commits": [
+    { "dir": "01-base", "message": "feat: order ids", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-03T10:00:00Z" },
+    { "dir": "02-bump-uuid", "message": "build(deps): bump uuid from 3.4.0 to 9.0.1", "author": "QA Fixture <qa-fixture@example.invalid>", "date": "2026-10-04T10:00:00Z" }
+  ],
+  "expected": {
+    "classification": "dependency_regression",
+    "failingTest": { "file": "test/ids.test.js", "name": "newOrderId is prefixed and has 32 hex characters" },
+    "experiments": ["reproduce", "compare_parent", "validate_patch"],
+    "remediation": "dependency_pin",
+    "notes": "uuid >= 8 no longer exposes uuid/v4. A model patch to another major version fails validation; the deterministic pin back to 3.4.0 validates."
+  }
+}

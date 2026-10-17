@@ -1,0 +1,12 @@
+{
+  "name": "notification-batcher",
+  "version": "2.0.1",
+  "private": true,
+  "description": "Notification delivery planning (alibi-qa fixture).",
+  "scripts": {
+    "test": "jest --ci --showSeed"
+  },
+  "devDependencies": {
+    "jest": "29.7.0"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "qa-ts-flaky",
+  "title": "QA (TypeScript): a docs-only commit turns CI red \u2014 leaked test state",
+  "summary": "A test leaves a cache file behind, so it fails on every second run in the same checkout (alibi-qa controlled scenario).",
+  "repository": "alibi-qa/ts-sessions",
+  "framework": "jest",
+  "branch": "main",
+  "workflow": "CI",
+  "job": "test (node 20)",
+  "ciCommand": [
+    "npx",
+    "jest",
+    "--ci"
+  ],
+  "commits": [
+    {
+      "dir": "01-base",
+      "message": "feat: session store",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-10T10:00:00Z"
+    },
+    {
+      "dir": "02-docs",
+      "message": "docs: explain session persistence",
+      "author": "QA Fixture <qa-fixture@example.invalid>",
+      "date": "2026-10-11T10:00:00Z"
+    }
+  ],
+  "expected": {
+    "classification": "flaky_test",
+    "failingTest": {
+      "file": "src/session.test.ts",
+      "name": "starts without an active session"
+    },
+    "experiments": [
+      "reproduce",
+      "repeat",
+      "compare_parent",
+      "validate_patch"
+    ],
+    "remediation": "quarantine",
+    "notes": "Within one checkout, run k fails iff the previous run left .session-cache. The parent is just as flaky."
+  }
+}
